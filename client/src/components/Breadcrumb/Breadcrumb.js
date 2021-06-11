@@ -7,7 +7,7 @@ function Breadcrumb() {
     return (
         <div className={classes.root}> 
             <div></div>
-            <Typography style={{fontSize: '30px', fontWeight: 'bold'}}>
+            <Typography style={{fontSize: '30px', fontWeight: '600'}}>
                 CATALOG
             </Typography>
         </div>

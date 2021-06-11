@@ -11,7 +11,7 @@ function Header() {
 
     return (
         <div className={classes.root}>
-            <h1>LOGO</h1>
+            <h1>CRUSHY</h1>
 
             <Typography className={classes.link}>
                 <Link href="#">

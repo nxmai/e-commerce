@@ -6,7 +6,7 @@ export default makeStyles((theme) => ({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        height: '17vh',
+        height: '20vh',
         backgroundColor: '#FECDBE',
         marginBottom: '80px',
         marginTop: '100px',

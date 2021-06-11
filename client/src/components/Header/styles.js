@@ -7,13 +7,14 @@ export default makeStyles((theme) => ({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '25px 10vw',
+        padding: '25px 8vw',
         position: 'fixed',
         top: 0,
         left: 0,
         right: 0,
         background: 'white',
         zIndex: '999',
+        
         //border: '1px solid black'
     }, 
     link: {
@@ -23,6 +24,7 @@ export default makeStyles((theme) => ({
             margin: '20px',
             fontSize: '20px',
             color: 'black',
+            
             //border: '1px solid green'
         },
         '& a:hover': {
