@@ -1,15 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useStyles from "./styles";
 import {
-  Button,
-  ButtonGroup,
-  IconButton,
-  Tab,
-  Tabs,
-  useTheme,
-} from "@material-ui/core";
+  Button, IconButton, Tab, Tabs } from "@material-ui/core";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { useDispatch, useSelector } from "react-redux";
+import { getProductDetails } from "../../redux/actions/productActions";
 
 //import SwipeableViews from "react-swipeable-views";
 
@@ -25,11 +21,22 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 //   );
 // }
 
-function SingleProduct({ item }) {
+function SingleProduct({match}) {
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = useState(0);
   const [quantity, setQuantity] = useState(0);
   //const theme = useTheme();
+
+  //setup redux
+  const dispatch = useDispatch();
+  const productDetails = useSelector(state => state.getProductDetails);
+  const { loading, error, product } = productDetails;
+
+  useEffect(() => {
+    if(product && match.params.id !== product._id){
+      dispatch(getProductDetails(match.params.id));
+    }
+  }, [dispatch, match, product])
 
   const handleChangeTab = (event, newValue) => {
     setSelectedTab(newValue);
@@ -49,14 +56,18 @@ function SingleProduct({ item }) {
 
   return (
     <div className={classes.root}>
-      <div className={classes.product}>
+      {loading 
+      ? <h2>Loading...</h2> 
+      : error 
+      ? <h2>{error}</h2>
+      : (<div className={classes.product}>
         <div>
-          <img className={classes.image} src={item.imageUrl}></img>
+          <img className={classes.image} src={product.imageUrl}></img>
         </div>
 
         <div className={classes.information}>
-          <h1 className={classes.name}>{item.name}</h1>
-          <h2>${item.price}</h2>
+          <h1 className={classes.name}>{product.name}</h1>
+          <h2>${product.price}</h2>
 
           <Tabs
             value={selectedTab}
@@ -70,7 +81,7 @@ function SingleProduct({ item }) {
 
           {selectedTab === 0 && (
             <div className={classes.description}>
-              <p style={{ textAlign: "justify" }}>{item.description}</p>
+              <p style={{ textAlign: "justify" }}>{product.description}</p>
               <h4 style={{ marginTop: '40px'}}>Quantity</h4>
 
               <div className={classes.buttonGroup}>
@@ -88,7 +99,7 @@ function SingleProduct({ item }) {
             </div>
           )}
           {selectedTab === 1 && (
-            <p style={{ textAlign: "justify" }}>{item.ingredients}</p>
+            <p style={{ textAlign: "justify" }}>{product.ingredients}</p>
           )}
 
           {selectedTab === 2 && <p>application</p>}
@@ -99,14 +110,15 @@ function SingleProduct({ item }) {
             onChangeIndex={handleChangeIndex}
           >
             <TabPanel value={selectedTab} index={0} dir={theme.direction}>
-              {item.description}
+              {product.description}
             </TabPanel>
             <TabPanel value={selectedTab} index={1} dir={theme.direction}>
-              {item.ingredients}
+              {product.ingredients}
             </TabPanel>
           </SwipeableViews> */}
         </div>
-      </div>
+      </div>)
+      }
     </div>
   );
 }

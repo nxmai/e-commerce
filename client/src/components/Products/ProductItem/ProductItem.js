@@ -4,6 +4,7 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
+  Link,
   Typography,
 } from "@material-ui/core";
 import useStyles from "./styles";
@@ -13,7 +14,7 @@ function ProductItem({ item }) {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea href="/single-product">
+      <CardActionArea href={`/product/${item._id}`}>
         <CardMedia
           image={item.imageUrl}
           title={item.name}
@@ -33,6 +34,7 @@ function ProductItem({ item }) {
                         <AddShoppingCart/>
                     </IconButton>
                 </CardActions> */}
+        {/* <Link></Link> */}
       </CardActionArea>
     </Card>
   );

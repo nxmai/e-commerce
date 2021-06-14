@@ -4,13 +4,13 @@ export default makeStyles((theme) => ({
     product: {
         marginTop: '100px',
         display: 'flex',
-
     },
     root: {
         margin: '8vw 15vw',
     },
     image: {
         height: '80vh',
+        width: '30vw',
         borderRadius: '15px',
         marginRight: '100px',
     },
