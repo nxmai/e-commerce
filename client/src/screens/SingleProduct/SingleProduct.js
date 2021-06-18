@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import useStyles from "./styles";
 import {
   Button, IconButton, Tab, Tabs } from "@material-ui/core";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import { useDispatch, useSelector } from "react-redux";
 import { getProductDetails } from "../../redux/actions/productActions";

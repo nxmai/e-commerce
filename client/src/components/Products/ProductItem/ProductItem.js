@@ -4,7 +4,6 @@ import {
   CardActionArea,
   CardContent,
   CardMedia,
-  Link,
   Typography,
 } from "@material-ui/core";
 import useStyles from "./styles";
