@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Checkbox, FormControl, FormControlLabel, FormGroup, Radio, RadioGroup } from "@material-ui/core";
 import useStyles from "./styles";
-import { useDispatch, useSelector } from "react-redux";
 
-import { getBrands as listBrands } from "../../redux/actions/productActions";
+import productApi from "../../api/productApi";
 
 //use default for category and sort
 const categorys = [
@@ -45,74 +44,94 @@ const sortBy = [
   },
 ];
 
-function Filter({filter, setFilter}) {
+function Filter({params, setParams}) {
   const classes = useStyles();
 
-  const getBrands = useSelector((state) => state.getBrands);
-  const { brands, loading, error } = getBrands;
+  const [brands, setBrands] = useState([]);
 
-  const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(listBrands())
-  }, [dispatch])
-
-  const handleChange = (value, e) => {
-    if(e.target.checked){
-      setFilter([...filter, value]);
-    } else{
-      const index = filter.indexOf(value);
-      const newArr = filter;
-      newArr.splice(index, 1);
-      setFilter([...newArr]);
-    }
-  }
-
-  const handleRadioChange = (value, e) => {
-    const newArr = filter;
-    var index;
-    for(const item of newArr){
-      if(item.includes('sort')){
-        index = newArr.indexOf(item);
-        newArr.splice(index, 1);
-        break;
+    const fetchBrandList = async () => {
+      try {
+        const response = await productApi.getBrand();
+        setBrands(response);
+      } catch(error) {
+        console.log('Failed to load brand list', error);
       }
     }
-      setFilter([...newArr, value]);
+     
+    fetchBrandList();
+  }, [])
+
+  const handleCategoryChange = (value, e) => {
+    if(params.hasOwnProperty('category')){
+      setParams({...params, category: value}); 
+    } else {
+      let tmpParam = { ...params };
+      tmpParam.category = value;
+
+      setParams(tmpParam);
+    }
   }
+
+  const handleBrandChange = (value, e) => {
+    if(params.hasOwnProperty('brand')){
+      setParams({...params, brand: value}); 
+    } else {
+      let tmpParam = { ...params };
+      tmpParam.brand = value;
+
+      setParams(tmpParam);
+    }
+  }
+
+  const handleSortChange = (value, e) => {
+    if(params.hasOwnProperty('sort')){
+      setParams({...params, sort: value}); 
+    } else {
+      let tmpParam = { ...params };
+      tmpParam.sort = value;
+
+      setParams(tmpParam);
+    }
+  }
+
 
   return (
     <div className={classes.root}>
       <h2>FILTER</h2>
 
       <h3>CATEGORY</h3>
-      <FormGroup>
-        {categorys.map((item, index) => (
-          <FormControlLabel
-            control={<Checkbox />}
-            label={item.name}
-            key={index}
-            onChange={(e) => handleChange(`category=${item.name.split(' ').join('+')}`, e)}
-          />
-        ))}
-      </FormGroup>
+      <FormControl>
+        <RadioGroup>
+          {categorys.map((item, index) => (
+            <FormControlLabel
+              control={<Radio />}
+              label={item.name}
+              key={index}
+              value={item.name}
+              onChange={(e) => handleCategoryChange(`${item.name}`, e)}
+            />
+          ))}
+        </RadioGroup>
+        
+      </FormControl>
 
       <h3>BRANDS</h3>
       <FormControl>
-        {loading
-          ? <h2>loading...</h2>
-          : error
-          ? ""
-          : brands ? 
-          brands.map((item, index) => (
-              <FormControlLabel
-                control={<Checkbox />}
-                label={item.name}
-                key={index}
-                
-                onChange={(e) => handleChange(`brand=${item.name.split(' ').join('+')}`, e)}
-              />
-            )) 
-          : ""}
+        <RadioGroup>
+          { brands ? 
+            brands.map((item, index) => (
+                <FormControlLabel
+                  control={<Radio />}
+                  label={item.name}
+                  key={index}
+                  value={item.name}
+                  onChange={(e) => handleBrandChange(`${item.name}`, e)}
+                />
+              )) 
+            : ""}
+        </RadioGroup>
+        
       </FormControl>
 
       <h3>SORT BY</h3>
@@ -124,7 +143,7 @@ function Filter({filter, setFilter}) {
             label={item.name}
             value={item.name}
             key={index}
-            onChange={(e) => handleRadioChange(`sort=${item.value}`, e)}
+            onChange={(e) => handleSortChange(`${item.value}`, e)}
           />
         ))}
         </RadioGroup>

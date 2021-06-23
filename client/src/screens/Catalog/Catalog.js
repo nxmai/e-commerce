@@ -4,27 +4,44 @@ import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Filter from "../../components/Filter/Filter";
 import Products from "../../components/Products/Products";
 import useStyles from "./styles";
-import { useDispatch, useSelector } from "react-redux";
 import Pagination from '@material-ui/lab/Pagination';
 
-import { getProducts as listProducts } from "../../redux/actions/productActions";
+import productApi from "../../api/productApi";
 
 function Catalog() {
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const getProducts = useSelector((state) => state.getProducts);
-  const { products, loading, error, countAllProducts } = getProducts;
-  
-  const [filter, setFilter] = useState([]); //use filter to pass url param to redux thunk file to get data
-  const [page, setPage] = useState(1);
+  const [countAllProducts, setCountAllProducts] = useState();
+  const [params, setParams] = useState({page: 1});
 
-  useEffect(() => {
-    dispatch(listProducts(filter, page));
-  }, [dispatch, filter, page]);
 
   const handlePageChange = (e, value) => {
-    setPage(value);
+    if(params.hasOwnProperty('page')){
+      setParams({...params, page: value}); 
+    } else {
+      let tmpParam = { ...params };
+      tmpParam.page = value;
+
+      setParams(tmpParam);
+    }
+
   }
+
+  const [products, setProducts] = useState([]);
+  useEffect(() => {
+    const fetchProductList = async () => {
+      try {
+        const response = await productApi.getAll(params);
+        setProducts(response.products);
+        setCountAllProducts(response.countAllProducts);
+
+      } catch(error) {
+        console.log('Failed to load product list', error);
+      }
+    }
+     
+    fetchProductList();
+  }, [params])
+
 
   return (
     <div>
@@ -35,22 +52,14 @@ function Catalog() {
 
         <Grid container>
           <Grid item lg={3} md={3} sm={3}>
-            <Filter filter={filter} setFilter={setFilter} />
+            <Filter params={params} setParams={setParams} />
           </Grid>
 
           <Grid item lg={9} md={9} sm={9}>
-            {loading ? (
-              <h2>loading...</h2>
-            ) : error ? (
-              <h2>{error}</h2>
-            ) : products ? (
-              <Products products={products} />
-            ) : (
-              " "
-            )}
+            <Products products={products} />
 
             <div className={classes.paginationRoot}>
-                {products ? <Pagination className={classes.pagination} count={Math.ceil(countAllProducts/12)} onChange={handlePageChange}/> : " "}
+              <Pagination className={classes.pagination} count={Math.ceil(countAllProducts/12)} onChange={handlePageChange}/>
             </div>
             
           </Grid>
