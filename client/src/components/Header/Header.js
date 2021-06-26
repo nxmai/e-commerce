@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { IconButton, Link, Typography, Menu, MenuItem } from "@material-ui/core";
+import { IconButton, Link, Typography, Menu, MenuItem, Dialog } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+
 import useStyles from "./styles";
+import Login from "../Login_Signup/Login/Login";
+import Signup from "../Login_Signup/Signup/Signup";
 
 function Header() {
   const classes = useStyles();
@@ -11,7 +14,8 @@ function Header() {
   const [anchorEl, setAnchorEl] = useState(null);
   const openAccMenu = Boolean(anchorEl);
 
-  console.log('open', openAccMenu);
+  const [openLogin, setOpenLogin] = useState(false);
+  const [openSignup, setOpenSignup] = useState(false);
 
   const handleAccClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -21,9 +25,29 @@ function Header() {
     setAnchorEl(null);
   };
 
+  const handleSignupClose = () => {
+    setOpenSignup(false);
+  }
+
+  const handleSignupOpen = () => {
+    handleAccClose();
+    setOpenSignup(true);
+  }
+
+  const handleLoginClose = () => {
+    setOpenLogin(false);
+  }
+
+  const handleLoginOpen = () => {
+    handleAccClose();
+    setOpenLogin(true);
+  }
+
   return (
     <div className={classes.root}>
-      <h1>CRUSHY</h1>
+      <Typography variant="h5">
+        CRUSHY
+      </Typography>
 
       <Typography className={classes.link}>
         <Link href="#">Home</Link>
@@ -51,9 +75,17 @@ function Header() {
         </IconButton>
 
         <Menu open={openAccMenu} anchorEl={anchorEl} onClose={handleAccClose} keepMounted>
-            <MenuItem onClick={handleAccClose}> Sign up </MenuItem>
-            <MenuItem onClick={handleAccClose}> Login </MenuItem>
-          </Menu>
+            <MenuItem onClick={handleSignupOpen}> Sign up </MenuItem>
+            <MenuItem onClick={handleLoginOpen}> Login </MenuItem>
+        </Menu>
+
+        <Dialog open={openSignup} onClose={handleSignupClose}>
+          <Signup handleSignupClose={handleSignupClose} handleLoginOpen={handleLoginOpen} />
+        </Dialog>
+
+        <Dialog open={openLogin} onClose={handleLoginClose}>
+          <Login handleLoginClose={handleLoginClose} handleSignupOpen={handleSignupOpen}/>
+        </Dialog>
 
       </div>
     </div>

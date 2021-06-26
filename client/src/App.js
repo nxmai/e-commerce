@@ -6,16 +6,15 @@ import Catalog from "./screens/Catalog/Catalog";
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SingleProduct from "./screens/SingleProduct/SingleProduct";
-import Login_Signup from "./screens/Login_Signup/Login_Signup";
 
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#F9ABAB',
-      dark: '#FF8D8D'
+      main: '#FBBCA9',
+      dark: '#F7AF99'
     }, 
     secondary: {
-      main: '#94D0CC',
+      main: '#58ACA7',
       dark: '#266057'
     }
   },

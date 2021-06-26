@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Checkbox, FormControl, FormControlLabel, FormGroup, Radio, RadioGroup } from "@material-ui/core";
+import { Checkbox, FormControl, FormControlLabel, FormGroup, Radio, RadioGroup, Typography } from "@material-ui/core";
 import useStyles from "./styles";
 
 import productApi from "../../api/productApi";
@@ -98,9 +98,14 @@ function Filter({params, setParams}) {
 
   return (
     <div className={classes.root}>
-      <h2>FILTER</h2>
+      <Typography variant="h5">
+        FILTER
+      </Typography>
 
-      <h3>CATEGORY</h3>
+      <Typography variant="h6">
+      CATEGORY
+      </Typography>
+
       <FormControl>
         <RadioGroup>
           {categorys.map((item, index) => (
@@ -116,7 +121,10 @@ function Filter({params, setParams}) {
         
       </FormControl>
 
-      <h3>BRANDS</h3>
+
+      <Typography variant="h6">
+        BRANDS
+      </Typography>
       <FormControl>
         <RadioGroup>
           { brands ? 
@@ -134,7 +142,10 @@ function Filter({params, setParams}) {
         
       </FormControl>
 
-      <h3>SORT BY</h3>
+
+      <Typography variant="h6">
+        SORT BY
+      </Typography>
       <FormControl>
         <RadioGroup>
         {sortBy.map((item, index) => (

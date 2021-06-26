@@ -4,7 +4,7 @@ export default makeStyles((theme) => ({
     root: {
         display: 'flex',
         flexDirection: 'row',
-        backgroundColor: '#FECDBE',
+        backgroundColor: '#FBBCA9',
         width: '100%',
         padding: '5vw 10vw',
         justifyContent: 'space-between',

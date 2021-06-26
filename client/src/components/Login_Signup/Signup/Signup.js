@@ -12,11 +12,16 @@ import Typography from "@material-ui/core/Typography";
 import Container from "@material-ui/core/Container";
 import useStyles from "./styles";
 
-function Signup() {
+function Signup({handleSignupClose, handleLoginOpen}) {
   const classes = useStyles();
 
+  const handleOnclick = () => {
+    handleSignupClose();
+    handleLoginOpen(); 
+  }
+
   return (
-    <Container component="main" maxWidth="xs" className={classes.root}>
+    <Container component="main" maxWidth="xs" >
       {/* <CssBaseline /> */}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -96,7 +101,10 @@ function Signup() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              {/* <Button>
+                Already have an account? Sign in
+              </Button> */}
+              <Link variant="body2" onClick={handleOnclick} style={{cursor: "pointer"}}>
                 Already have an account? Sign in
               </Link>
             </Grid>
