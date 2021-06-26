@@ -18,6 +18,7 @@ function Signup({handleSignupClose, handleLoginOpen}) {
   const handleOnclick = () => {
     handleSignupClose();
     handleLoginOpen(); 
+    console.log('test branch');
   }
 
   return (
