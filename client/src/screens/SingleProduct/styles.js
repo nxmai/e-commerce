@@ -48,13 +48,13 @@ export default makeStyles((theme) => ({
     addToCartButton: {
         width: '150px',
         height: '40px',
-        backgroundColor: '#84A594',
+        // backgroundColor: '#84A594',
         color: 'white',
         fontWeight: '800',
         borderRadius: '10px',
 
         '&:hover': {
-            backgroundColor: '#266057',
+            // backgroundColor: '#266057',
             transition: '0.5s',
         }
     }

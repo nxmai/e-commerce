@@ -3,8 +3,8 @@ import useStyles from "./styles";
 import {
   Button, IconButton, Tab, Tabs } from "@material-ui/core";
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import { useDispatch, useSelector } from "react-redux";
-import { getProductDetails } from "../../redux/actions/productActions";
+import productApi from "../../api/productApi";
+
 
 //import SwipeableViews from "react-swipeable-views";
 
@@ -24,18 +24,22 @@ function SingleProduct({match}) {
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = useState(0);
   const [quantity, setQuantity] = useState(0);
-  //const theme = useTheme();
 
-  //setup redux
-  const dispatch = useDispatch();
-  const productDetails = useSelector(state => state.getProductDetails);
-  const { loading, error, product } = productDetails;
+  const [product, setProduct] = useState([]);
 
   useEffect(() => {
-    if(product && match.params.id !== product._id){
-      dispatch(getProductDetails(match.params.id));
+    const fetchProductList = async () => {
+      try {
+        const response = await productApi.getSingleProduct(match.params.id);
+        setProduct(response);
+
+      } catch(error) {
+        console.log('Failed to load product list', error);
+      }
     }
-  }, [dispatch, match, product])
+     
+    fetchProductList();
+  }, [])
 
   const handleChangeTab = (event, newValue) => {
     setSelectedTab(newValue);
@@ -55,13 +59,9 @@ function SingleProduct({match}) {
 
   return (
     <div className={classes.root}>
-      {loading 
-      ? <h2>Loading...</h2> 
-      : error 
-      ? <h2>{error}</h2>
-      : (<div className={classes.product}>
+      <div className={classes.product}>
         <div>
-          <img className={classes.image} src={product.imageUrl}></img>
+          <img className={classes.image} src={product.imageUrl} alt={product.name}></img>
         </div>
 
         <div className={classes.information}>
@@ -72,6 +72,7 @@ function SingleProduct({match}) {
             value={selectedTab}
             onChange={handleChangeTab}
             className={classes.tabs}
+            indicatorColor="primary"
           >
             <Tab label="Description" />
             <Tab label="Ingredients" />
@@ -84,13 +85,14 @@ function SingleProduct({match}) {
               <h4 style={{ marginTop: '40px'}}>Quantity</h4>
 
               <div className={classes.buttonGroup}>
-                <Button onClick={handleIncrement} className={classes.countButton} style={{maxWidth: '20px', maxHeight: '20px', minWidth: '20px', minHeight: '20px'}}>+</Button>
-                <h4 className={classes.quantity}> {quantity} </h4>
                 <Button onClick={handleDecrement} className={classes.countButton} style={{maxWidth: '20px', maxHeight: '20px', minWidth: '20px', minHeight: '20px'}}>-</Button>
+                <h4 className={classes.quantity}> {quantity} </h4>
+                <Button onClick={handleIncrement} className={classes.countButton} style={{maxWidth: '20px', maxHeight: '20px', minWidth: '20px', minHeight: '20px'}}>+</Button>
+
               </div>
 
               <div >
-                <Button className={classes.addToCartButton}>Add to cart</Button>
+                <Button className={classes.addToCartButton} color="secondary" variant="contained">Add to cart</Button>
                 <IconButton>
                   <FavoriteBorderIcon />
                 </IconButton>
@@ -116,8 +118,8 @@ function SingleProduct({match}) {
             </TabPanel>
           </SwipeableViews> */}
         </div>
-      </div>)
-      }
+      </div>
+      
     </div>
   );
 }

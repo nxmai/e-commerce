@@ -7,6 +7,10 @@ const productApi = {
     return axiosClient.get(url, { params });
   },
 
+  getSingleProduct: (id) => {
+    const url = `/product/${id}`;
+    return axiosClient.get(url);
+  },
 
   getBrand: () => {
       const url = "/product/brands";

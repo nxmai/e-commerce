@@ -7,10 +7,12 @@ router.post('/register', userCtrl.register);
 
 router.post('/login', userCtrl.login);
 
-router.get('/addcart', auth, userCtrl.addCart)
+router.get('/addcart', auth, userCtrl.addCart);
 
 router.post('/logout', userCtrl.logout);
- 
-router.get('/token', userCtrl.refreshToken);
+
+router.get('/infor', auth, userCtrl.getUser);
+  
+router.get('/refresh_token', userCtrl.refreshToken);
 
 module.exports = router;
