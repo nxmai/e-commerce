@@ -20,6 +20,9 @@ const theme = createMuiTheme({
   },
   shape: {
     borderRadius: 10
+  },
+  typography: {
+    fontFamily: 'Quicksand'
   }
 })
  

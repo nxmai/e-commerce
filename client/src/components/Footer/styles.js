@@ -6,7 +6,7 @@ export default makeStyles((theme) => ({
         flexDirection: 'row',
         backgroundColor: '#FBBCA9',
         width: '100%',
-        padding: '5vw 10vw',
+        padding: '4vw 10vw',
         justifyContent: 'space-between',
         fontSize: '14px',
         lineHeight: '30px',

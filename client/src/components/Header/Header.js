@@ -45,7 +45,7 @@ function Header() {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h5">
+      <Typography variant="h4" >
         CRUSHY
       </Typography>
 
