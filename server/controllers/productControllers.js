@@ -37,7 +37,7 @@ class APIfeatures {
         this.query = this.query.skip(skip).limit(limit)
         
         return this;
-    }
+    } 
 }
 
 const getAllProducts = async (req, res) => {

@@ -48,24 +48,24 @@ export const getProductDetailsReducer = (state = {product: {}}, action) => {
     }
 };
 
-export const getBrandsReducer = (state = {brands: []}, action) => {
-    switch(action.type){
-        case actionTypes.GET_BRANDS_REQUEST:
-            return {
-                loading: true,
-                brands: []
-            };
-        case actionTypes.GET_BRANDS_SUCCESS:
-            return {
-                brands: action.payload,
-                loading: false,
-            };
-        case actionTypes.GET_BRANDS_FAIL:
-            return {
-                loading: false,
-                arror: action.payload
-            }
-        default:
-            return state
-    }
-};
+// export const getBrandsReducer = (state = {brands: []}, action) => {
+//     switch(action.type){
+//         case actionTypes.GET_BRANDS_REQUEST:
+//             return {
+//                 loading: true,
+//                 brands: []
+//             };
+//         case actionTypes.GET_BRANDS_SUCCESS:
+//             return {
+//                 brands: action.payload,
+//                 loading: false,
+//             };
+//         case actionTypes.GET_BRANDS_FAIL:
+//             return {
+//                 loading: false,
+//                 arror: action.payload
+//             }
+//         default:
+//             return state
+//     }
+// };

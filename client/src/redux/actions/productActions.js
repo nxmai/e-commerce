@@ -1,17 +1,21 @@
 import * as actionTypes from "../constants/productConstants";
 import axios from "axios";
+import productApi from "../../api/productApi";
 
-export const getProducts = (filter, page) => async (dispatch) => {
+
+export const getProducts = (params) => async (dispatch) => {
   try {
     dispatch({ type: actionTypes.GET_PRODUCTS_REQUEST });
     
-    var url;
-    if(filter.length === 0){
-      url = `/product?page=${page}`;
-    } else{
-      url = `/product?${filter.join('&')}&page=${page}`;
-    }
-    const { data } = await axios.get(url);
+    // var url;
+    // if(filter.length === 0){
+    //   url = `/product?page=${page}`;
+    // } else{
+    //   url = `/product?${filter.join('&')}&page=${page}`;
+    // }
+    // const { data } = await axios.get(url);
+
+    const data = await productApi.getAll(params);
    
     dispatch({
       type: actionTypes.GET_PRODUCTS_SUCCESS,
@@ -48,23 +52,23 @@ export const getProductDetails = (id) => async (dispatch) => {
     }
   };
 
-  export const getBrands = () => async (dispatch) => {
-    try {
-      dispatch({ type: actionTypes.GET_BRANDS_REQUEST });
+  // export const getBrands = () => async (dispatch) => {
+  //   try {
+  //     dispatch({ type: actionTypes.GET_BRANDS_REQUEST });
       
-      const { data } = await axios.get("/product/brands");
+  //     const { data } = await axios.get("/product/brands");
       
-      dispatch({
-        type: actionTypes.GET_BRANDS_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: actionTypes.GET_BRANDS_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      });
-    }
-  };
+  //     dispatch({
+  //       type: actionTypes.GET_BRANDS_SUCCESS,
+  //       payload: data,
+  //     });
+  //   } catch (error) {
+  //     dispatch({
+  //       type: actionTypes.GET_BRANDS_FAIL,
+  //       payload:
+  //         error.response && error.response.data.message
+  //           ? error.response.data.message
+  //           : error.message,
+  //     });
+  //   }
+  // };

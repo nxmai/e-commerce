@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Grid } from "@material-ui/core";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
 import Filter from "../../components/Filter/Filter";
@@ -6,13 +7,16 @@ import Products from "../../components/Products/Products";
 import useStyles from "./styles";
 import Pagination from '@material-ui/lab/Pagination';
 
-import productApi from "../../api/productApi";
+import { getProducts as listProducts } from "../../redux/actions/productActions";
+
 
 function Catalog() {
   const classes = useStyles();
-  const [countAllProducts, setCountAllProducts] = useState();
   const [params, setParams] = useState({page: 1});
+  const dispatch = useDispatch();
 
+  const getProducts = useSelector((state) => state.getProducts);
+  const countAllProducts = getProducts.countAllProducts;
 
   const handlePageChange = (e, value) => {
     if(params.hasOwnProperty('page')){
@@ -26,21 +30,14 @@ function Catalog() {
 
   }
 
-  const [products, setProducts] = useState([]);
   useEffect(() => {
-    const fetchProductList = async () => {
-      try {
-        const response = await productApi.getAll(params);
-        setProducts(response.products);
-        setCountAllProducts(response.countAllProducts);
+    dispatch(listProducts(params));
+    window.scrollTo( {
+      top: 0,
+      behavior: "smooth"
+    });
 
-      } catch(error) {
-        console.log('Failed to load product list', error);
-      }
-    }
-     
-    fetchProductList();
-  }, [params])
+  }, [params, dispatch]);
 
 
   return (
@@ -50,13 +47,13 @@ function Catalog() {
           <Breadcrumb />
         </Grid>
 
-        <Grid container>
+        <Grid container >
           <Grid item lg={3} md={3} sm={3}>
-            <Filter params={params} setParams={setParams} />
+            <Filter params={params} setParams={setParams}/>
           </Grid>
 
           <Grid item lg={9} md={9} sm={9}>
-            <Products products={products} />
+            <Products props={getProducts}/>
 
             <div className={classes.paginationRoot}>
               <Pagination className={classes.pagination} count={Math.ceil(countAllProducts/12)} onChange={handlePageChange}/>

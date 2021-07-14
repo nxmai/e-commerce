@@ -7,11 +7,11 @@ import { getProductDetailsReducer, getProductsReducer, getBrandsReducer } from '
 
 const reducers = combineReducers({
     getProducts: getProductsReducer,
-    // getProductDetails: getProductDetailsReducer,
+    getProductDetails: getProductDetailsReducer,
     // getBrands: getBrandsReducer
 });
 
-// const middleware = [thunk];
+const middleware = [thunk];
 
 const store = createStore(
     reducers,
