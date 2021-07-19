@@ -31,7 +31,7 @@ function SingleProduct({match}) {
     const fetchProductList = async () => {
       try {
         const response = await productApi.getSingleProduct(match.params.id);
-        setProduct(response);
+        setProduct(response.data);
 
       } catch(error) {
         console.log('Failed to load product list', error);

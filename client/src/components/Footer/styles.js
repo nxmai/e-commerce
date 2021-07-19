@@ -10,6 +10,13 @@ export default makeStyles((theme) => ({
         justifyContent: 'space-between',
         fontSize: '14px',
         lineHeight: '30px',
+
+        // position: 'fixed',
+        // //height: 50px;
+        // bottom: '0px',
+        // left: '0px',
+        // right: '0px',
+        // marginBottom: '0px',
     },
     faq: {
        '& a': {

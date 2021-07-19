@@ -3,9 +3,11 @@ import "./App.css";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
 import Catalog from "./screens/Catalog/Catalog";
+import Profile from "./screens/Profile/Profile"
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SingleProduct from "./screens/SingleProduct/SingleProduct";
+
 
 const theme = createMuiTheme({
   palette: {
@@ -46,6 +48,8 @@ function App() {
               <Route path="/product">
                 <Catalog />
               </Route>
+
+              <Route path="/user/infor" component={Profile} />
             </Switch>
           </Grid>
 

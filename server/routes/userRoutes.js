@@ -15,4 +15,4 @@ router.get('/infor', auth, userCtrl.getUser);
   
 router.get('/refresh_token', userCtrl.refreshToken);
 
-module.exports = router;
+module.exports = router; 

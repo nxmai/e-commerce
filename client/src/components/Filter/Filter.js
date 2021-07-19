@@ -59,7 +59,7 @@ function Filter({params, setParams}) {
     const fetchBrandList = async () => {
       try {
         const response = await productApi.getBrand();
-        setBrands(response);
+        setBrands(response.data);
       } catch(error) {
         console.log('Failed to load brand list', error);
       }

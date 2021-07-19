@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { IconButton, Link, Typography, Menu, MenuItem, Dialog } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -7,30 +7,27 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import useStyles from "./styles";
 import Login from "../Login_Signup/Login/Login";
 import Signup from "../Login_Signup/Signup/Signup";
+import { Redirect } from "react-router-dom";
+
 
 function Header() {
   const classes = useStyles();
-
-  const [anchorEl, setAnchorEl] = useState(null);
-  const openAccMenu = Boolean(anchorEl);
-
   const [openLogin, setOpenLogin] = useState(false);
   const [openSignup, setOpenSignup] = useState(false);
+  const [login, setLogin] = useState(localStorage.getItem('login'));
+  // const login = localStorage.getItem('login');
+  // console.log('login', login);
+  // console.log('header');
 
-  const handleAccClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleAccClose = () => {
-    setAnchorEl(null);
-  };
+  useEffect(() => {
+    setLogin(localStorage.getItem('login'));
+  }, [localStorage.getItem('login')])
 
   const handleSignupClose = () => {
     setOpenSignup(false);
   }
 
   const handleSignupOpen = () => {
-    handleAccClose();
     setOpenSignup(true);
   }
 
@@ -38,9 +35,10 @@ function Header() {
     setOpenLogin(false);
   }
 
+  
+
   const handleLoginOpen = () => {
-    handleAccClose();
-    setOpenLogin(true);
+      setOpenLogin(true);
   }
 
   return (
@@ -68,16 +66,18 @@ function Header() {
           <FavoriteIcon style={{ color: "black" }} />
         </IconButton>
 
-        <IconButton onClick={handleAccClick}>
+        { login ? 
+          <IconButton href="/user/infor">
+            <AccountCircleIcon style={{ color: "black" }} />
+          </IconButton>
+        : 
+          <IconButton onClick={handleLoginOpen}>
+            <AccountCircleIcon style={{ color: "black" }} />
+          </IconButton>  
+      }
+        {/* <IconButton onClick={handleLoginOpen}>
           <AccountCircleIcon style={{ color: "black" }} />
-
-          
-        </IconButton>
-
-        <Menu open={openAccMenu} anchorEl={anchorEl} onClose={handleAccClose} keepMounted>
-            <MenuItem onClick={handleSignupOpen}> Sign up </MenuItem>
-            <MenuItem onClick={handleLoginOpen}> Login </MenuItem>
-        </Menu>
+        </IconButton> */}
 
         <Dialog open={openSignup} onClose={handleSignupClose}>
           <Signup handleSignupClose={handleSignupClose} handleLoginOpen={handleLoginOpen} />

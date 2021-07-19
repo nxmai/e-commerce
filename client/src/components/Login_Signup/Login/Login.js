@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,13 +11,82 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import useStyles from "./styles";
+import { useDispatch, useSelector } from "react-redux";
+
+import { login } from "../../../redux/actions/authActions";
+
 
 function Login({handleLoginClose, handleSignupOpen}) {
     const classes = useStyles();
+    const dispatch = useDispatch();
+    const [user, setUser] = useState({
+      email: '', password: '',
+    })
+    const [errors, setErrors] = useState({email: '', password: ''});
+    const auth = useSelector(state => state.auth);
+    const serverError = auth.error;
+    const [flag, setFlag] = useState(false);
+
+    useEffect(() => {
+    
+    }, [errors])
+
+    const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+    const validateForm = (errors) => {
+      let valid = true;
+      Object.values(errors).forEach(
+        (val) => val.length > 0 && (valid = false)
+      );
+
+      if(!validEmailRegex.test(user.email)){
+        valid = false
+        errors.email = 'Email is not valid!';
+      }
+      if(user.password.length < 6){
+        valid = false
+        errors.password = 'Password must be 6 characters long!';
+      }
+      setErrors({...errors})
+
+      return valid;
+    }
+
+    const onInputChange = (e) => {
+      const {name, value} = e.target;
+      setUser({...user, [name]: value});
+
+      switch (name) {
+        case 'email': 
+          errors.email = 
+            validEmailRegex.test(value)
+              ? ''
+              : 'Email is not valid!';
+          break;
+        case 'password': 
+          errors.password = 
+            value.length < 6
+              ? 'Password must be 6 characters long!'
+              : '';
+          break;
+        default:
+          break;
+      }
+    }
 
     const handleOnclick = () => {
       handleLoginClose();
       handleSignupOpen(); 
+    }
+
+    
+    const handleSubmit = (e) => {
+      e.preventDefault();
+    if(validateForm(errors)){
+      setFlag(true);
+      dispatch(login(user));
+      handleLoginClose();
+    } 
+
     }
 
   return (
@@ -30,7 +99,7 @@ function Login({handleLoginClose, handleSignupOpen}) {
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={handleSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -41,7 +110,9 @@ function Login({handleLoginClose, handleSignupOpen}) {
             name="email"
             autoComplete="email"
             autoFocus
-            className={classes.txtField}
+            onChange={onInputChange}
+            error = { errors.email ? true : flag ? (serverError?.email ? true : false) : false }
+            helperText={errors.email ? errors.email : flag ? serverError?.email : ''}
           />
           <TextField
             variant="outlined"
@@ -53,7 +124,9 @@ function Login({handleLoginClose, handleSignupOpen}) {
             type="password"
             id="password"
             autoComplete="current-password"
-            className={classes.txtField}
+            onChange = {onInputChange}
+            error = { errors.password ? true : flag ? (serverError?.password ? true : false) : false }
+            helperText= { errors.password ? errors.password : flag ? serverError?.password : ''}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
