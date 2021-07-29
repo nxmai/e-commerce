@@ -7,39 +7,21 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import useStyles from "./styles";
 import Login from "../Login_Signup/Login/Login";
 import Signup from "../Login_Signup/Signup/Signup";
-import { Redirect } from "react-router-dom";
+import { Redirect, useLocation } from "react-router-dom";
 
 
 function Header() {
   const classes = useStyles();
-  const [openLogin, setOpenLogin] = useState(false);
-  const [openSignup, setOpenSignup] = useState(false);
-  const [login, setLogin] = useState(localStorage.getItem('login'));
-  // const login = localStorage.getItem('login');
-  // console.log('login', login);
-  // console.log('header');
+  const [login, setLogin] = useState(JSON.parse(localStorage.getItem('login')));
+  const location = useLocation();
+  
+  console.log("location ", location);
+  console.log("login", login);
 
   useEffect(() => {
-    setLogin(localStorage.getItem('login'));
-  }, [localStorage.getItem('login')])
-
-  const handleSignupClose = () => {
-    setOpenSignup(false);
-  }
-
-  const handleSignupOpen = () => {
-    setOpenSignup(true);
-  }
-
-  const handleLoginClose = () => {
-    setOpenLogin(false);
-  }
-
-  
-
-  const handleLoginOpen = () => {
-      setOpenLogin(true);
-  }
+    setLogin(JSON.parse(localStorage.getItem('login')));
+    
+  }, [location])
 
   return (
     <div className={classes.root}>
@@ -71,21 +53,11 @@ function Header() {
             <AccountCircleIcon style={{ color: "black" }} />
           </IconButton>
         : 
-          <IconButton onClick={handleLoginOpen}>
+          <IconButton href="/auth">
             <AccountCircleIcon style={{ color: "black" }} />
           </IconButton>  
       }
-        {/* <IconButton onClick={handleLoginOpen}>
-          <AccountCircleIcon style={{ color: "black" }} />
-        </IconButton> */}
-
-        <Dialog open={openSignup} onClose={handleSignupClose}>
-          <Signup handleSignupClose={handleSignupClose} handleLoginOpen={handleLoginOpen} />
-        </Dialog>
-
-        <Dialog open={openLogin} onClose={handleLoginClose}>
-          <Login handleLoginClose={handleLoginClose} handleSignupOpen={handleSignupOpen}/>
-        </Dialog>
+       
 
       </div>
     </div>

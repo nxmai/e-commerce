@@ -7,10 +7,10 @@ export default makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    // boxShadow: "2px 2px 8px 5px rgba(0, 0, 0, .1)",
-    // borderRadius: "10px",
-    // padding: theme.spacing(3),
-    // backgroundColor: 'white'
+    boxShadow: "2px 2px 8px 5px rgba(0, 0, 0, .1)",
+    borderRadius: "10px",
+    padding: theme.spacing(3),
+    backgroundColor: 'white'
   },
   avatar: {
     margin: theme.spacing(1),

@@ -2,7 +2,7 @@ import axios from "axios";
 import { authApi } from "../../api/authApi";
 import * as actionTypes from "../constants/authConstants";
 
-export const signup = (user) => async (dispatch) => {
+export const signup = (user, history) => async (dispatch) => {
   try {
     dispatch({ type: actionTypes.SIGNUP_REQUEST });
     // const data = await authApi.signup(user);
@@ -16,6 +16,8 @@ export const signup = (user) => async (dispatch) => {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
       dispatch({ type: actionTypes.LOGIN_SUCCESS, payload: { token, user } });
+
+      history.push('/');
     } else {
       const { errors } = data.errors;
       dispatch({ type: actionTypes.SIGNUP_FAILURE, payload: { errors } });
@@ -26,7 +28,7 @@ export const signup = (user) => async (dispatch) => {
   }
 };
 
-export const login = (user) => async (dispatch) => {
+export const login = (user, history) => async (dispatch) => {
   try {
     dispatch({ type: actionTypes.LOGIN_REQUEST });
 
@@ -40,6 +42,8 @@ export const login = (user) => async (dispatch) => {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
       dispatch({ type: actionTypes.LOGIN_SUCCESS, payload: { token, user } });
+
+      history.push('/');
     } else {
       const { errors } = data.errors;
       dispatch({ type: actionTypes.LOGIN_FAILURE, payload: { errors } });

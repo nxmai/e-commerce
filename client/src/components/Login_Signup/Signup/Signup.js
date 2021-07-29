@@ -14,10 +14,11 @@ import useStyles from "./styles";
 
 import { useDispatch, useSelector } from "react-redux";
 import { signup } from "../../../redux/actions/authActions";
+import { useHistory } from "react-router-dom";
 
 
 
-function Signup({handleSignupClose, handleLoginOpen}) {
+function Signup({setLogin}) {
   const classes = useStyles();
   const [user, setUser] = useState({
     name: '', email: '', password: '', cfpassword: ''
@@ -26,6 +27,7 @@ function Signup({handleSignupClose, handleLoginOpen}) {
   const auth = useSelector(state => state.auth);
   const [errors, setErrors] = useState({name: '', email: '', password: '', cfpassword: ''});
   const [flag, setFlag] = useState(false);
+  const history = useHistory();
 
   const serverError = auth.error;
 
@@ -33,9 +35,8 @@ function Signup({handleSignupClose, handleLoginOpen}) {
     
   }, [errors])
 
-  const handleOnclick = () => {
-    handleSignupClose();
-    handleLoginOpen(); 
+  const handleLoginOpen = () => {
+    setLogin(true);
   }
 
   const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
@@ -107,7 +108,7 @@ function Signup({handleSignupClose, handleLoginOpen}) {
     
     if(validateForm(errors)){
       setFlag(true);
-      dispatch(signup(user));
+      dispatch(signup(user, history));
     } 
   }
 
@@ -132,6 +133,7 @@ function Signup({handleSignupClose, handleLoginOpen}) {
                 id="name"
                 label="Full Name"
                 name="name"
+                autoFocus
                 autoComplete="name"
                 onChange={onInputChange}
                 error = { errors.name ? true : flag ? (serverError?.name ? true : false) : false }
@@ -206,7 +208,7 @@ function Signup({handleSignupClose, handleLoginOpen}) {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link variant="body2" onClick={handleOnclick} style={{cursor: "pointer"}}>
+              <Link variant="body2" onClick={handleLoginOpen} style={{cursor: "pointer"}}>
                 Already have an account? Sign in
               </Link>
             </Grid>

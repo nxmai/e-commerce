@@ -14,9 +14,10 @@ import useStyles from "./styles";
 import { useDispatch, useSelector } from "react-redux";
 
 import { login } from "../../../redux/actions/authActions";
+import { useHistory } from 'react-router-dom';
 
 
-function Login({handleLoginClose, handleSignupOpen}) {
+function Login({setLogin}) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const [user, setUser] = useState({
@@ -26,6 +27,8 @@ function Login({handleLoginClose, handleSignupOpen}) {
     const auth = useSelector(state => state.auth);
     const serverError = auth.error;
     const [flag, setFlag] = useState(false);
+    
+    const history = useHistory();
 
     useEffect(() => {
     
@@ -73,20 +76,18 @@ function Login({handleLoginClose, handleSignupOpen}) {
       }
     }
 
-    const handleOnclick = () => {
-      handleLoginClose();
-      handleSignupOpen(); 
+    const handleSignupOpen = () => {
+      setLogin(false);
     }
-
     
     const handleSubmit = (e) => {
       e.preventDefault();
     if(validateForm(errors)){
       setFlag(true);
-      dispatch(login(user));
-      handleLoginClose();
+      dispatch(login(user, history));
+      history.push('/');
+      // handleLoginClose();
     } 
-
     }
 
   return (
@@ -148,7 +149,7 @@ function Login({handleLoginClose, handleSignupOpen}) {
               </Link>
             </Grid>
             <Grid item>
-              <Link variant="body2" onClick={handleOnclick} style={{cursor: "pointer"}}>
+              <Link variant="body2" onClick={handleSignupOpen} style={{cursor: "pointer"}}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

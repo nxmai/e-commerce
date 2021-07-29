@@ -7,6 +7,8 @@ import Profile from "./screens/Profile/Profile"
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SingleProduct from "./screens/SingleProduct/SingleProduct";
+import Login from "./components/Login_Signup/Login/Login";
+import Auth from "./screens/Auth/Auth";
 
 
 const theme = createMuiTheme({
@@ -50,6 +52,8 @@ function App() {
               </Route>
 
               <Route path="/user/infor" component={Profile} />
+
+              <Route path="/auth" component={Auth} />
             </Switch>
           </Grid>
 
