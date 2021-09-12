@@ -1,4 +1,4 @@
-import { Container, createMuiTheme, Grid, ThemeProvider } from "@material-ui/core";
+import { createMuiTheme, Grid, ThemeProvider } from "@material-ui/core";
 import "./App.css";
 import Footer from "./components/Footer/Footer";
 import Header from "./components/Header/Header";
@@ -7,8 +7,9 @@ import Profile from "./screens/Profile/Profile"
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import SingleProduct from "./screens/SingleProduct/SingleProduct";
-import Login from "./components/Login_Signup/Login/Login";
 import Auth from "./screens/Auth/Auth";
+import Cart from "./screens/Cart/Cart";
+import Home from "./screens/Home/Home";
 
 
 const theme = createMuiTheme({
@@ -54,6 +55,10 @@ function App() {
               <Route path="/user/infor" component={Profile} />
 
               <Route path="/auth" component={Auth} />
+
+              <Route path="/cart" component={Cart} />
+
+              <Route path="/" component={Home} />
             </Switch>
           </Grid>
 

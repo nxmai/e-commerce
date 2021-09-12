@@ -32,5 +32,33 @@ export default makeStyles((theme) => ({
             cursor: 'pointer',
         }
     },
+    crushy:{
+        '& a': {
+            listStyle: 'none',
+            padding: '10px',
+            margin: '20px',
+            color: 'black',
+        },
+        '& a:hover': {
+            textDecoration: 'none',
+            cursor: 'pointer',
+        }
+    },
+    cartIcon: {
+        position: 'relative',
+    },
+    iconSpan: {
+        position: 'absolute',
+        background: 'crimson',
+        borderRadius: '20px',
+        color: 'white',
+        padding: '3px 5px',
+        right: '0px',
+        top: '-5px',
+        zIndex: '999',
+    },
+    iconGroup: {
+        display: 'flex',
+    }
     
 }))

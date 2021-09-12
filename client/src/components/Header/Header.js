@@ -1,36 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { IconButton, Link, Typography, Menu, MenuItem, Dialog } from "@material-ui/core";
+import React, { useEffect, useContext, useState } from "react";
+import { IconButton, Link, Typography } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import useStyles from "./styles";
-import Login from "../Login_Signup/Login/Login";
-import Signup from "../Login_Signup/Signup/Signup";
 import { Redirect, useLocation } from "react-router-dom";
+
+import { GlobalState } from "../../GlobalState";
 
 
 function Header() {
   const classes = useStyles();
-  const [login, setLogin] = useState(JSON.parse(localStorage.getItem('login')));
+
+  const state = useContext(GlobalState);
+  const [isLogged] = state.userAPI.isLogged;
+  const [cart] = state.userAPI.cart;
+
   const location = useLocation();
   
-  console.log("location ", location);
-  console.log("login", login);
-
   useEffect(() => {
-    setLogin(JSON.parse(localStorage.getItem('login')));
     
   }, [location])
 
   return (
     <div className={classes.root}>
-      <Typography variant="h4" >
-        CRUSHY
+      <Typography variant="h4" className={classes.crushy}>
+        <Link href="/"> CRUSHY </Link>
       </Typography>
 
       <Typography className={classes.link}>
-        <Link href="#">Home</Link>
+        <Link href="/">Home</Link>
 
         <Link href="/product">Catalog</Link>
 
@@ -39,16 +39,26 @@ function Header() {
         <Link href="#">Contact</Link>
       </Typography>
 
-      <div>
-        <IconButton>
-          <ShoppingCartIcon style={{ color: "black" }} />
-        </IconButton>
+      <div className={classes.iconGroup}>
+        {/* {isLogged ? "Welcome" : ""} */}
 
+        {isLogged ? 
+        <div className={classes.cartIcon}>
+          <span className={classes.iconSpan}>{cart.length}</span>
+          <IconButton href="/cart">
+            <ShoppingCartIcon style={{ color: "black" }} />
+          </IconButton>
+        </div>
+        : ""
+        }
+
+        {isLogged ? 
         <IconButton>
           <FavoriteIcon style={{ color: "black" }} />
         </IconButton>
-
-        { login ? 
+        : ""}
+        
+        { isLogged ? 
           <IconButton href="/user/infor">
             <AccountCircleIcon style={{ color: "black" }} />
           </IconButton>
@@ -57,8 +67,6 @@ function Header() {
             <AccountCircleIcon style={{ color: "black" }} />
           </IconButton>  
       }
-       
-
       </div>
     </div>
   );

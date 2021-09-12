@@ -61,7 +61,12 @@ const getAllProducts = async (req, res) => {
 const getProductById = async (req, res) => {
     try{
         const product = await Product.findById(req.params.id);
-        res.json(product);
+
+        const recommendProducts = await Product.find({brand: product.brand})
+        .sort('createdAt')
+        .limit(4); 
+
+        res.json({product, recommendProducts});
     } catch (error) {
         console.error(error);
         res.status(500).json({message: "Server Error"});
@@ -79,8 +84,38 @@ const getBrands = async (req, res) => {
     }
 }
 
+const getTopNewProducts = async (req, res) => {
+    try {
+        const products = await Product.find({})
+        .sort('-createdAt')
+        .limit(4); 
+
+        res.json(products);
+        
+    } catch(error){
+        console.error(error);
+        res.status(500).json({message: "Server Error"});
+    }
+}
+
+const getTopLaroche = async (req, res) => {
+    try {
+        const products = await Product.find({brand: 'Laroche Posay'})
+        .sort('createdAt')
+        .limit(4); 
+
+        res.json(products);
+        
+    } catch(error){
+        console.error(error);
+        res.status(500).json({message: "Server Error"});
+    }
+}
+
 module.exports = {
     getAllProducts,
     getProductById,
-    getBrands
+    getBrands,
+    getTopNewProducts,
+    getTopLaroche,
 }

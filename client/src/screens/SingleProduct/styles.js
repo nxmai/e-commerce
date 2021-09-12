@@ -4,15 +4,16 @@ export default makeStyles((theme) => ({
     product: {
         marginTop: '100px',
         display: 'flex',
+        height: '520px',
     },
     root: {
-        margin: '8vw 15vw',
+        margin: '150px 230px 0px 230px',
     },
     image: {
-        height: '80vh',
-        width: '30vw',
+        // height: '80vh',
+        // width: '30vw',
         borderRadius: '15px',
-        marginRight: '100px',
+        marginRight: '30px',
     },
     information: {
         display: 'flex',
@@ -31,6 +32,7 @@ export default makeStyles((theme) => ({
     },
     name: {
         margin: '20px 0px',
+        textAlign: 'left',
     },
     buttonGroup: {
         display: 'flex',
@@ -57,5 +59,13 @@ export default makeStyles((theme) => ({
             // backgroundColor: '#266057',
             transition: '0.5s',
         }
+    },
+    recommendProduct: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        marginTop: '30px',
+    },
+    reSection: {
+        marginTop: '120px',
     }
 }))

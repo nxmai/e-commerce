@@ -30,6 +30,7 @@ function Catalog() {
 
   }
 
+  console.log("params", params);
   useEffect(() => {
     dispatch(listProducts(params));
     window.scrollTo( {
@@ -41,10 +42,10 @@ function Catalog() {
 
 
   return (
-    <div>
+    <div className={classes.root}>
       <Grid container>
         <Grid item lg={12} md={12} sm={12}>
-          <Breadcrumb />
+          <Breadcrumb title="CATALOG" />
         </Grid>
 
         <Grid container >

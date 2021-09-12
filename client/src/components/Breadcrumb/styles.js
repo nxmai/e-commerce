@@ -8,7 +8,7 @@ export default makeStyles((theme) => ({
         flexDirection: 'column',
         height: '20vh',
         backgroundColor: '#FBBCA9',
-        marginBottom: '80px',
+        marginBottom: '60px',
         marginTop: '100px',
     }
 }))

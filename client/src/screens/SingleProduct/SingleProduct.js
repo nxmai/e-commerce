@@ -1,45 +1,39 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import useStyles from "./styles";
-import {
-  Button, IconButton, Tab, Tabs } from "@material-ui/core";
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import { Button, IconButton, Tab, Tabs } from "@material-ui/core";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import productApi from "../../api/productApi";
+import { GlobalState } from "../../GlobalState";
 
+import axios from "axios";
+import ProductItem from "../../components/Products/ProductItem/ProductItem";
+import Subscibe from "../../components/Subscribe/Subscibe";
 
-//import SwipeableViews from "react-swipeable-views";
-
-// function TabPanel(props) {
-//   const { children, value, index, ...other } = props;
-
-//   return (
-//     <div>
-//       {value === index && (
-//         <p>{children}</p>
-//       )}
-//     </div>
-//   );
-// }
-
-function SingleProduct({match}) {
+function SingleProduct({ match }) {
   const classes = useStyles();
   const [selectedTab, setSelectedTab] = useState(0);
-  const [quantity, setQuantity] = useState(0);
+  const [quantity, setQuantity] = useState(1);
+  const [recommendPro, setRecommendPro] = useState([]);
 
   const [product, setProduct] = useState([]);
+
+  const state = useContext(GlobalState);
+  const addCart = state.userAPI.addCart;
+  const [cart] = state.userAPI.cart;
 
   useEffect(() => {
     const fetchProductList = async () => {
       try {
         const response = await productApi.getSingleProduct(match.params.id);
-        setProduct(response.data);
-
-      } catch(error) {
-        console.log('Failed to load product list', error);
+        setProduct(response.data.product);
+        setRecommendPro(response.data.recommendProducts);
+      } catch (error) {
+        console.log("Failed to load product list", error);
       }
-    }
-     
+    };
+
     fetchProductList();
-  }, [])
+  }, []);
 
   const handleChangeTab = (event, newValue) => {
     setSelectedTab(newValue);
@@ -50,19 +44,21 @@ function SingleProduct({match}) {
   };
 
   const handleDecrement = () => {
-    if (quantity >= 1) setQuantity(quantity - 1);
+    if (quantity > 1) setQuantity(quantity - 1);
   };
 
-  //   const handleChangeIndex = (index) => {
-  //     setSelectedTab(index);
-  //   };
+  const handleAddToCart = () => {
+    addCart(product, quantity);
+  };
 
   return (
     <div className={classes.root}>
       <div className={classes.product}>
-        <div>
-          <img className={classes.image} src={product.imageUrl} alt={product.name}></img>
-        </div>
+        <img
+          className={classes.image}
+          src={product.imageUrl}
+          alt={product.name}
+        ></img>
 
         <div className={classes.information}>
           <h1 className={classes.name}>{product.name}</h1>
@@ -82,17 +78,45 @@ function SingleProduct({match}) {
           {selectedTab === 0 && (
             <div className={classes.description}>
               <p style={{ textAlign: "justify" }}>{product.description}</p>
-              <h4 style={{ marginTop: '40px'}}>Quantity</h4>
+              <h4 style={{ marginTop: "40px" }}>Quantity</h4>
 
               <div className={classes.buttonGroup}>
-                <Button onClick={handleDecrement} className={classes.countButton} style={{maxWidth: '20px', maxHeight: '20px', minWidth: '20px', minHeight: '20px'}}>-</Button>
+                <Button
+                  onClick={handleDecrement}
+                  className={classes.countButton}
+                  style={{
+                    maxWidth: "20px",
+                    maxHeight: "20px",
+                    minWidth: "20px",
+                    minHeight: "20px",
+                  }}
+                >
+                  -
+                </Button>
                 <h4 className={classes.quantity}> {quantity} </h4>
-                <Button onClick={handleIncrement} className={classes.countButton} style={{maxWidth: '20px', maxHeight: '20px', minWidth: '20px', minHeight: '20px'}}>+</Button>
-
+                <Button
+                  onClick={handleIncrement}
+                  className={classes.countButton}
+                  style={{
+                    maxWidth: "20px",
+                    maxHeight: "20px",
+                    minWidth: "20px",
+                    minHeight: "20px",
+                  }}
+                >
+                  +
+                </Button>
               </div>
 
-              <div >
-                <Button className={classes.addToCartButton} color="secondary" variant="contained">Add to cart</Button>
+              <div>
+                <Button
+                  className={classes.addToCartButton}
+                  color="secondary"
+                  variant="contained"
+                  onClick={handleAddToCart}
+                >
+                  Add to cart
+                </Button>
                 <IconButton>
                   <FavoriteBorderIcon />
                 </IconButton>
@@ -104,22 +128,19 @@ function SingleProduct({match}) {
           )}
 
           {selectedTab === 2 && <p>application</p>}
-
-          {/* <SwipeableViews
-            axis={theme.direction === "rtl" ? "x-reverse" : "x"}
-            index={selectedTab}
-            onChangeIndex={handleChangeIndex}
-          >
-            <TabPanel value={selectedTab} index={0} dir={theme.direction}>
-              {product.description}
-            </TabPanel>
-            <TabPanel value={selectedTab} index={1} dir={theme.direction}>
-              {product.ingredients}
-            </TabPanel>
-          </SwipeableViews> */}
         </div>
       </div>
-      
+
+      <div className={classes.reSection}>
+        <h1>Recommended For You</h1>
+      </div>
+      <div className={classes.recommendProduct}>
+        {recommendPro?.map((item, index) => (
+          <ProductItem key={index} item={item} />
+        ))}
+      </div>
+
+      <Subscibe />
     </div>
   );
 }

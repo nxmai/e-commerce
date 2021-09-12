@@ -5,7 +5,7 @@ export default makeStyles((themem) => ({
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-        marginRight: '10vw',
-        justifyContent: 'center',
+        marginRight: '8vw',
+        justifyContent: 'space-between',
     }
 }))

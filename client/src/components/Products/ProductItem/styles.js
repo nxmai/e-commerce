@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core";
 export default makeStyles((theme) => ({
     root: {
         width: '220px',
-        margin: '12px',
+        margin: '25px 10px',
         //borderRadius: '10px',
         border: 0,
         boxShadow: '0px 0px 0px 0px'
@@ -11,10 +11,11 @@ export default makeStyles((theme) => ({
     },
     media: {
         height: 0,
-        paddingTop: '130%',
+        paddingTop: '100%',
         width: '100%',
         borderRadius: '20px',
         marginBottom: '15px',
+        scale: '0.7'
     },
     content: {
         textAlign: 'left',

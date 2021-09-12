@@ -7,7 +7,7 @@ router.post('/register', userCtrl.register);
 
 router.post('/login', userCtrl.login);
 
-router.get('/addcart', auth, userCtrl.addCart);
+router.patch('/addcart', auth, userCtrl.addCart);
 
 router.post('/logout', userCtrl.logout);
 

@@ -10,6 +10,7 @@ export default makeStyles((theme) => ({
         justifyContent: 'space-between',
         fontSize: '14px',
         lineHeight: '30px',
+        borderRadius: '48% 49% 0% 0% / 8% 14% 0% 0% ',
 
         // position: 'fixed',
         // //height: 50px;

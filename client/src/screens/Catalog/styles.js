@@ -8,5 +8,8 @@ export default makeStyles((themem) => ({
     },
     pagination: {
         margin: '25px 0px',
-    } 
+    }, 
+    root: {
+        marginBottom: '40px',
+    }
 }))
