@@ -1,4 +1,6 @@
 # e-commerce
+[demo application](https://crushy.netlify.app/)
+
 ## Tech stack
 -------------
 - nodejs
