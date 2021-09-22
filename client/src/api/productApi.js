@@ -3,17 +3,17 @@ import axiosClient from "./axiosClient";
 
 const productApi = {
   getAll:  (params) => {
-    const url = "/product";
+    const url = "https://crushy.herokuapp.com/product";
     return axiosClient.get(url, { params });
   },
 
   getSingleProduct: (id) => {
-    const url = `/product/${id}`;
+    const url = `https://crushy.herokuapp.com/product/${id}`;
     return axiosClient.get(url);
   },
 
   getBrand: () => {
-      const url = "/product/brands";
+      const url = "https://crushy.herokuapp.com/product/brands";
       return axiosClient.get(url);
   }
 }

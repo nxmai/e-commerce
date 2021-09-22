@@ -11,7 +11,7 @@ export const DataProvider = ({children}) => {
         const firstLogin = localStorage.getItem('login');
         if(firstLogin){
             const refreshToken = async () => {
-                const res = await axios.get("/user/refresh_token");
+                const res = await axios.get("https://crushy.herokuapp.com/user/refresh_token");
 
                 setToken(res.data.token);
 

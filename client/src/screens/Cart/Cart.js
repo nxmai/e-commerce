@@ -30,7 +30,7 @@ function Cart() {
 
   const addToCart = async (cart) => {
     await axios.patch(
-      "/user/addcart",
+      "https://crushy.herokuapp.com/user/addcart",
       { cart },
       {
         headers: { Authorization: token },

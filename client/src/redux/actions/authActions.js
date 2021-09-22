@@ -6,7 +6,7 @@ export const signup = (user, history) => async (dispatch) => {
   try {
     dispatch({ type: actionTypes.SIGNUP_REQUEST });
     // const data = await authApi.signup(user);
-    const data = await axios.post("/user/register",  user );
+    const data = await axios.post("https://crushy.herokuapp.com/user/register",  user );
 
     if (data.status === 201) {
       dispatch({ type: actionTypes.SIGNUP_SUCCESS });
@@ -32,7 +32,7 @@ export const login = (user, history) => async (dispatch) => {
   try {
     dispatch({ type: actionTypes.LOGIN_REQUEST });
 
-    const data = await axios.post("/user/login", user );
+    const data = await axios.post("https://crushy.herokuapp.com/user/login", user );
 
     if (data.status === 200) {
       const { token, user } = data.data;

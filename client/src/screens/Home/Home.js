@@ -15,10 +15,10 @@ function Home() {
     const getNewProduct = async () => {
       console.log("getnewpr");
       try {
-        const newProducts = await axios.get("/product/topnewproducts");
+        const newProducts = await axios.get("https://crushy.herokuapp.com/product/topnewproducts");
         setTopNewProducts(newProducts.data);
 
-        const topLaroce = await axios.get("/product/topLaroche");
+        const topLaroce = await axios.get("https://crushy.herokuapp.com/product/topLaroche");
         setTopNewLaroche(topLaroce.data);
       } catch (error) {
         console.log(error);

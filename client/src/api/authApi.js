@@ -9,13 +9,12 @@ function UserAPI(token) {
         if(token){
             const getUser = async () =>{
                 try {
-                    const res = await axios.get('/user/infor', {
+                    const res = await axios.get('https://crushy.herokuapp.com/user/infor', {
                         headers: {Authorization: token}
                     })
 
                     setIsLogged(true);
                     setCart(res.data.cart);
-                    console.log("res", res);
 
                 } catch (err) {
                     alert(err.response.data.msg)
@@ -33,7 +32,7 @@ function UserAPI(token) {
 
         if(check){
             setCart([...cart, {...product, quantity: quantity}]);
-            await axios.patch('/user/addcart', {cart: [...cart, {...product, quantity: quantity}]}, {
+            await axios.patch('https://crushy.herokuapp.com/user/addcart', {cart: [...cart, {...product, quantity: quantity}]}, {
                 headers: {Authorization: token}
             });
         }else{
